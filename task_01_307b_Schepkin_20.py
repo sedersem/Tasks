@@ -4,7 +4,7 @@ import os
 n = 100
 A = -3.13024
 e = 2.718281828
-y = np.linspace(-100, 100, 100)
+y = np.linspace(-2*np.pi, 2*np.pi, 100)
 x = np.linspace(-2*np.pi, 2*np.pi, 100) # интервал
 fx = (np.sin(y)*(e**((1 - np.cos(A))**(2))) + (np.cos(A)*(e**((1 - np.sin(A))**2)))+(x - A)**(2)) 
 # создание папки для результатов
