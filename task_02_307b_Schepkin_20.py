@@ -32,7 +32,7 @@ Sum_arr = [((-1) ** n) * (n + 0.5) * (an(n, k * r) - bn(n, k * r)) \
  for n in range(1, 50)]
 Sum = np.sum(Sum_arr, axis=0) 
 Sig = (L ** 2) / pi * (np.abs(Sum) ** 2) # ЭПР
-plt.plot(f/0.01e9, Sig) 
+plt.plot(f/0.01e8, Sig) 
 plt.xlabel('$f, МГц$')
 plt.ylabel('$\sigma, м^2$')
 plt.grid()
@@ -42,7 +42,7 @@ try:
  os.mkdir('results')
 except OSError:
  pass
-1
+
 complete_file = os.path.join('results', 'task_02_307B_Schepkin_20.txt')
 #Преобразуем nparray в list, для вывода в файл
 ftl = f.tolist() 
