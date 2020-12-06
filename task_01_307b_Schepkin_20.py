@@ -9,7 +9,7 @@ x = np.linspace(-2*np.pi, 2*np.pi, 100) # интервал
 fx = (np.sin(y)*(e**((1 - np.cos(A))**(2))) + (np.cos(A)*(e**((1 - np.sin(A))**2)))+(x - A)**(2)) 
 # создание папки для результатов
 try:
- os.mkdir('')
+ os.mkdir('results')
 except OSError:
  pass
 complete_file = os.path.join('results', 'task_01_307b_Schepkin_20.txt')
