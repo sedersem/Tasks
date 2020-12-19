@@ -4,7 +4,7 @@ from numpy.fft import fft, fftshift
 import matplotlib.pyplot as plt
 
 
-# Функция гауссового импульса
+# Гауссов импульс
 def gauss(q, m, d_g, w_g, d_t, eps=1, mu=1, Sc=1):
     return np.exp(-((((q - m*np.sqrt(eps*mu)/Sc)
                       - (d_g / d_t)) / (w_g / dt)) ** 2))
@@ -120,7 +120,6 @@ for t in range(1, maxTime):
     # Расчет компоненты поля H
     Hy = Hy + (Ez[1:] - Ez[:-1]) * Sc / (W0 * mu)
 
-    # Источник возбуждения с использованием метода
     # Total Field / Scattered Field
     Hy[sourcePos - 1] -= (Sc / W0) * \
                          gauss(t, sourcePos, dg, wg, dt,
@@ -130,21 +129,19 @@ for t in range(1, maxTime):
     Ez[1:-1] = Ez[1: -1] + \
                (Hy[1:] - Hy[: -1]) * Sc * W0 / eps[1: -1]
 
-    # Источник возбуждения с использованием метода
     # Total Field / Scattered Field
     Ez0[t] = Sc * gauss(t + 1, sourcePos, dg, wg, dt,
                           eps=eps[sourcePos], mu=mu)
     Ez[sourcePos] += Ez0[t]
 
     # Граничные условия для поля E
-    # Слева
+
     Ez[0] = (k1[0] * (k2[0] * (Ez[2] + oldEzL2[0]) +
                       k3[0] * (oldEzL1[0] + oldEzL1[2] - 
                                Ez[1] - oldEzL2[1]) -
                       k4[0] * oldEzL1[1]) - oldEzL2[2])
     oldEzL2[:] = oldEzL1[:]
     oldEzL1[:] = Ez[0: 3]
-    # Справа
     Ez[-1] = (k1[-1] * (k2[-1] * (Ez[-3] + oldEzR2[-1]) +
                         k3[-1] * (oldEzR1[-1] + oldEzR1[-3] - 
                                   Ez[-2] - oldEzR2[-2]) -
@@ -156,7 +153,7 @@ for t in range(1, maxTime):
     # Регистрация поля в датчике
     probe1Ez[t] = Ez[probe1Pos]
 
-# Расчет спектра зарегистрированного сигнала
+# Расчет сигнала
 Ez1Spec = fftshift(np.abs(fft(probe1Ez)))
 Ez0Spec = fftshift(np.abs(fft(Ez0)))
 Gamma = Ez1Spec / Ez0Spec
@@ -178,7 +175,7 @@ ax1.grid()
 
 Fmax = 1e9
 Fmin = 0
-# Спектры сигналов
+# Спектральная плотность энергии падающего и отраженного сигналов
 ax2.set_xlim(Fmin, 3.5 * Fmax)
 ax2.set_ylim(0, 30)
 ax2.set_xlabel('f, ГГц')
@@ -190,7 +187,7 @@ ax2.legend(['Спектр падающего сигнала',
           loc='upper right')
 ax2.minorticks_on()
 ax2.grid()
-# Коэффициент отражения
+# Зависимость модуля коэффициента отражения от частоты
 ax3.set_xlim(Fmin, Fmax)
 ax3.set_ylim(0, 1.0)
 ax3.set_xlabel('f, ГГц')
@@ -201,3 +198,4 @@ ax3.grid()
 
 plt.subplots_adjust(hspace=0.5)
 plt.show()
+
